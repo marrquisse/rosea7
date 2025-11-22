@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rosea — Клієнт (Toasts)</title>
+  <link rel="stylesheet" href="styles-flex.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="board">
+
+      <header class="b1" role="banner">
+        <h2>Rosea Client</h2>
+      </header>
+
+      <div class="board-main-content">
+        <aside class="b2" role="complementary">
+          <h3>Клієнтська зона</h3>
+          <p>Дивіться у правий нижній кут екрану. Якщо адмін відправить повідомлення, вони з'являться там.</p>
+        </aside>
+
+        <main class="b5" role="main">
+          <div class="love-block">
+            <h1>Сторінка Клієнта</h1>
+          </div>
+          <div class="gallery-block">
+            <p>Ця сторінка імітує роботу користувача на сайті.</p>
+            <p>Система автоматично перевіряє сервер на наявність нових "Toasts" (повідомлень).</p>
+            <div style="width:100%; height:200px; background:#EFD8D6; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#422B23;">
+                Тут міг би бути контент сайту...
+            </div>
+          </div>
+        </main>
+
+        <div class="b4-b6-container">
+          <aside class="b4" role="complementary">
+            <nav role="navigation">
+              <ul>
+                <li><a href="index-flex.html">Головна</a></li>
+                <li><a href="page2-flex.html">Каталог</a></li>
+                <li><a href="page3-flex.html">Про нас</a></li>
+                <li><a href="page4-flex.html">Галерея</a></li>
+                <li><a href="page5-flex.html">Контакти</a></li>
+                <li><a href="admin.html">Адмінка</a></li>
+                <li><a class="active" href="client.html">Клієнт (View)</a></li>
+              </ul>
+            </nav>
+          </aside>
+          <div class="b6" role="note">
+            Порада: не закривайте вкладку, щоб бачити оновлення.
+          </div>
+        </div>
+      </div>
+
+      <footer class="b7" role="contentinfo">
+        <h2>Rosea</h2>
+        <h3>КП №6 - Варіант 8</h3>
+      </footer>
+
+      <div id="toast-container"></div>
+
+    </div>
+  </div>
+
+  <script>
+      let lastDataJson = ""; 
+
+      function createToast(data) {
+          const toast = document.createElement('div');
+          toast.className = 'rosea-toast';
+
+          const header = document.createElement('div');
+          header.className = 'toast-header';
+          
+          const title = document.createElement('strong');
+          title.textContent = data.title;
+          
+          const time = document.createElement('span');
+          time.textContent = data.time;
+
+          const btn = document.createElement('button');
+          btn.className = 'toast-close';
+          btn.innerHTML = '&times;';
+          btn.onclick = () => {
+              toast.style.opacity = '0';
+              setTimeout(() => toast.remove(), 500);
+          };
+
+          header.append(title, time, btn);
+
+          const body = document.createElement('div');
+          body.className = 'toast-body';
+          body.textContent = data.body;
+
+          toast.append(header, body);
+          return toast;
+      }
+
+      function fetchUpdates() {
+          fetch('server.php')
+              .then(res => res.json())
+              .then(data => {
+                  const currentJson = JSON.stringify(data);
+                  
+                  if (currentJson !== lastDataJson && Array.isArray(data)) {
+                      console.log("Оновлення отримано!");
+                      lastDataJson = currentJson;
+                      
+                      const container = document.getElementById('toast-container');
+                      container.innerHTML = ''; 
+
+                      data.forEach(item => {
+                          const toastElement = createToast(item);
+                          container.appendChild(toastElement);
+                      });
+                  }
+              })
+              .catch(err => console.error("Помилка сервера:", err));
+      }
+
+      setInterval(fetchUpdates, 3000);
+      fetchUpdates();
+  </script>
+</body>
+</html>

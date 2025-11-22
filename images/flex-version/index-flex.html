@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rosea — Головна</title>
+  <link rel="stylesheet" href="styles-flex.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="wrap">
+    <div class="board">
+
+      <header class="b1 banner" role="banner">
+        <h2>Rosea</h2>
+      </header>
+
+      <div class="board-main-content">
+
+        <aside class="b2 home-left" role="complementary">
+          <div class="left-text">
+            Подаруй букет <br>
+            для <span class="highlight">special</span> людини <br>
+            і зроби її день <br>
+            особливим
+          </div>
+        </aside>
+
+        <main class="b5" role="main">
+          <div class="love-block"> <h1>ТИ + ROSEA = ЛЮБОВ</h1>
+          </div>
+          <div class="gallery-block">
+            
+            <map name="flowermap">
+              <area shape="rect" coords="0,0,100,100" alt="Троянди" href="page2-flex.html" title="Перейти до каталогу троянд">
+              <area shape="circle" coords="150,150,50" alt="Спеціальна пропозиція" href="page4-flex.html" title="Спеціальні пропозиції">
+            </map>
+
+            <p>
+              У Rosea ми віримо, що квіти — це більше, ніж подарунок.
+              Це спосіб сказати «люблю», «дякую» чи «я пам'ятаю».
+              Наші букети створені дарувати тепло, ніжність і незабутні моменти.
+            </p>
+          </div>
+
+        <div class="task-container" id="task3-container">
+            <h3>Завдання 3: Максимальна цифра (Cookies)</h3>
+            <form id="max-digit-form">
+                <label for="number-input">Введіть число:</label>
+                <input type="number" id="number-input" required>
+                <button type="submit">Знайти</button>
+            </form>
+            <button id="clear-cookie-btn" style="display:none;">OK (Очистити Cookies)</button>
+        </div>
+
+        <div class="task-container" id="task5-container">
+            <h3>Завдання 5: Динамічні списки (LocalStorage)</h3>
+            <label for="block-selector">Оберіть блок для додавання списку:</label>
+            <select id="block-selector">
+                <option value="">-- Оберіть блок --</option>
+                <option value="b1">Блок 1 (Header)</option>
+                <option value="b2">Блок 2 (Ліва колонка)</option>
+                <option value="love-block">Блок 3 (TИ+ROSEA)</option>
+                <option value="b4">Блок 4 (Навігація)</option>
+                <option value="b5">Блок 5 (Main)</option>
+                <option value="b6">Блок 6 (Порада)</option>
+                <option value="b7">Блок 7 (Footer)</option>
+            </select>
+
+            <form id="add-item-form" style="display:none;">
+                <label for="list-item-input">Новий пункт списку:</label>
+                <input type="text" id="list-item-input" required>
+                <button type="submit">Додати</button>
+            </form>
+        </div>
+
+        </main>
+        
+        <aside class="b4-b6-container">
+            <div class="b4" role="complementary">
+                <nav role="navigation" aria-label="Головне меню">
+                    <ul>
+                        <li><a class="active" href="index-flex.html">Головна</a></li>
+                        <li><a href="page2-flex.html">Каталог</a></li>
+                        <li><a href="page3-flex.html">Про нас</a></li>
+                        <li><a href="page4-flex.html">Галерея</a></li>
+                        <li><a href="page5-flex.html">Контакти</a></li>
+                        <li><a href="admin.html">Адмінка</a></li>
+                        <li><a href="client.html">Клієнт (View)</a></li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <div class="b6" role="note"> Порада дня: додайте кілька квітів у свій дім, настрій зміниться 🌿
+            </div>
+        </aside>
+
+      </div> <footer class="b7" role="contentinfo">
+        <h2>Rosea</h2>
+        <h3>Квіти, що говорять замість слів ✨</h3>
+      </footer>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

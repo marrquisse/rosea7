@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rosea — Адмін Панель (КП6)</title>
+  <link rel="stylesheet" href="styles-flex.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="board">
+
+      <header class="b1" role="banner">
+        <h2>Rosea Admin</h2>
+      </header>
+
+      <div class="board-main-content">
+        <aside class="b2" role="complementary">
+          <h3>Інструкція</h3>
+          <p>Додайте повідомлення у форму. Вони з'являться у списку.</p>
+          <p>Натисніть <strong>"Зберегти на сервер"</strong>, щоб оновити дані для клієнта.</p>
+        </aside>
+
+        <main class="b5" role="main">
+          <div class="love-block">
+            <h1>Керування Toasts</h1>
+          </div>
+
+          <div class="admin-form-container">
+              <div class="form-group">
+                  <label>Заголовок (напр. Знижка):</label>
+                  <input type="text" id="t-title" placeholder="Введіть заголовок...">
+              </div>
+              
+              <div class="form-group">
+                  <label>Текст повідомлення:</label>
+                  <textarea id="t-body" rows="3" placeholder="Текст сповіщення..."></textarea>
+              </div>
+              
+              <div class="form-group">
+                  <label>Час (напр. 5 хв тому):</label>
+                  <input type="text" id="t-time" value="зараз">
+              </div>
+
+              <button class="btn-primary" onclick="addToPreview()">+ Додати у список</button>
+              
+              <div class="preview-list">
+                  <h4 style="margin-top:0">Черга повідомлень:</h4>
+                  <ul id="preview-ul" style="padding-left: 20px;"></ul>
+              </div>
+
+              <br>
+              <button class="btn-primary btn-save" onclick="sendToServer()">Зберегти на сервер</button>
+              <p id="status-msg" style="text-align:center; margin-top:10px; font-weight:bold;"></p>
+          </div>
+        </main>
+
+        <div class="b4-b6-container">
+          <aside class="b4" role="complementary">
+            <nav role="navigation">
+              <ul>
+                <li><a href="index-flex.html">Головна</a></li>
+                <li><a href="page2-flex.html">Каталог</a></li>
+                <li><a href="page3-flex.html">Про нас</a></li>
+                <li><a href="page4-flex.html">Галерея</a></li>
+                <li><a href="page5-flex.html">Контакти</a></li>
+                <li><a class="active" href="admin.html">Адмінка</a></li>
+                <li><a href="client.html">Клієнт (View)</a></li>
+              </ul>
+            </nav>
+          </aside>
+          <div class="b6" role="note">
+            Адміністратор бачить форму, клієнт бачить результат.
+          </div>
+        </div>
+      </div>
+
+      <footer class="b7" role="contentinfo">
+        <h2>Rosea</h2>
+        <h3>КП №6 - Варіант 8</h3>
+      </footer>
+
+    </div>
+  </div>
+
+  <script>
+      let toastsArray = [];
+
+      function addToPreview() {
+          const title = document.getElementById('t-title').value;
+          const body = document.getElementById('t-body').value;
+          const time = document.getElementById('t-time').value;
+
+          if(!title || !body) {
+              alert("Будь ласка, заповніть заголовок і текст.");
+              return;
+          }
+
+          toastsArray.push({ title, body, time });
+          renderList();
+          
+          document.getElementById('t-title').value = '';
+          document.getElementById('t-body').value = '';
+      }
+
+      function renderList() {
+          const ul = document.getElementById('preview-ul');
+          ul.innerHTML = '';
+          toastsArray.forEach((item, index) => {
+              ul.innerHTML += `
+                  <li style="margin-bottom:5px;">
+                      <strong>${item.title}</strong> 
+                      <button onclick="removeItem(${index})" style="margin-left:10px; color:red; cursor:pointer; border:none; background:none;">[видалити]</button>
+                  </li>`;
+          });
+      }
+
+      function removeItem(index) {
+          toastsArray.splice(index, 1);
+          renderList();
+      }
+
+      function sendToServer() {
+          const status = document.getElementById('status-msg');
+          status.innerText = "Зберігаю...";
+          status.style.color = "blue";
+
+          fetch('server.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(toastsArray)
+          })
+          .then(response => response.json())
+          .then(data => {
+              status.innerText = data.message;
+              status.style.color = "green";
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              status.innerText = "Помилка з'єднання!";
+              status.style.color = "red";
+          });
+      }
+  </script>
+</body>
+</html>

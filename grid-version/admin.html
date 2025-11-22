@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rosea — Адмін (Grid)</title>
+  <link rel="stylesheet" href="styles-grid.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="board">
+
+      <header class="b1" role="banner">
+        <h2>Rosea Admin </h2>
+      </header>
+
+      <aside class="b2" role="complementary">
+        <h3>Інструкція</h3>
+        <p>Це версія на Grid.</p>
+        <p>Додайте повідомлення у форму.</p>
+        <p>Натисніть <strong>"Зберегти на сервер"</strong>.</p>
+      </aside>
+
+      <main class="b5" role="main">
+        <div class="love-block">
+          <h1>Адмін-панель</h1>
+        </div>
+
+        <div class="admin-form-container">
+            <div class="form-group">
+                <label>Заголовок:</label>
+                <input type="text" id="t-title" placeholder="Введіть заголовок...">
+            </div>
+            <div class="form-group">
+                <label>Текст:</label>
+                <textarea id="t-body" rows="3" placeholder="Текст сповіщення..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Час:</label>
+                <input type="text" id="t-time" value="зараз">
+            </div>
+
+            <button class="btn-primary" onclick="addToPreview()">+ Додати у список</button>
+            
+            <div class="preview-list">
+                <h4 style="margin-top:0">Черга повідомлень:</h4>
+                <ul id="preview-ul" style="padding-left: 20px;"></ul>
+            </div>
+            <br>
+            <button class="btn-primary btn-save" onclick="sendToServer()">Зберегти на сервер</button>
+            <p id="status-msg" style="text-align:center; margin-top:10px; font-weight:bold;"></p>
+        </div>
+      </main>
+
+      <aside class="b4" role="complementary">
+        <nav role="navigation">
+          <ul>
+            <li><a href="index-grid.html">Головна</a></li>
+            <li><a href="page2-grid.html">Каталог</a></li>
+            <li><a href="page3-grid.html">Про нас</a></li>
+            <li><a href="page4-grid.html">Галерея</a></li>
+            <li><a href="page5-grid.html">Контакти</a></li>
+            <li><a class="active" href="admin.html">Адмінка</a></li>
+            <li><a href="client.html">Клієнт (View)</a></li>
+          </ul>
+        </nav>
+      </aside>
+
+      <div class="b6" role="note">
+        Це Grid версія адмін-панелі.
+      </div>
+
+      <footer class="b7" role="contentinfo">
+        <h2>Rosea</h2>
+        <h3>Квіти, що говорять замість слів ✨</h3>
+      </footer>
+
+    </div>
+  </div>
+
+  <script>
+      let toastsArray = [];
+
+      function addToPreview() {
+          const title = document.getElementById('t-title').value;
+          const body = document.getElementById('t-body').value;
+          const time = document.getElementById('t-time').value;
+
+          if(!title || !body) { alert("Заповніть поля!"); return; }
+
+          toastsArray.push({ title, body, time });
+          renderList();
+          
+          document.getElementById('t-title').value = '';
+          document.getElementById('t-body').value = '';
+      }
+
+      function renderList() {
+          const ul = document.getElementById('preview-ul');
+          ul.innerHTML = '';
+          toastsArray.forEach((item, index) => {
+              ul.innerHTML += `<li style="margin-bottom:5px;"><strong>${item.title}</strong> <button onclick="removeItem(${index})" style="color:red;border:none;background:none;cursor:pointer;">[x]</button></li>`;
+          });
+      }
+
+      function removeItem(index) {
+          toastsArray.splice(index, 1);
+          renderList();
+      }
+
+      function sendToServer() {
+          const status = document.getElementById('status-msg');
+          status.innerText = "Зберігаю...";
+          status.style.color = "blue";
+
+          fetch('server.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(toastsArray)
+          })
+          .then(res => res.json())
+          .then(data => {
+              status.innerText = data.message;
+              status.style.color = "green";
+          })
+          .catch(err => {
+              console.error(err);
+              status.innerText = "Помилка з'єднання!";
+              status.style.color = "red";
+          });
+      }
+  </script>
+</body>
+</html>
