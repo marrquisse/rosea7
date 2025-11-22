@@ -45,6 +45,7 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: auto;
   font-family: 'Montserrat', sans-serif; margin-bottom: 20px;
   min-height: 500px; height: auto;
+  position: relative; /* ВАЖЛИВО для позиціонування Work area */
 }
 
 .b4 {
@@ -154,10 +155,6 @@ h1, h2, h3, h4, h5, h6 {
 .flower-card p { margin-top: 12px; font-size: 18px; color: #333; font-family: 'Montserrat', sans-serif; }
 .flower-card b { font-family: 'Playfair Display', serif; font-weight: 600; }
 
-@media (max-width: 1100px) { .flower-card { width: 100%; max-width: 250px; } .flower-card img { height: 250px; } }
-@media (max-width: 768px) { .flower-card { max-width: 200px; } .flower-card img { height: 200px; } }
-@media (max-width: 480px) { .flower-card { max-width: 150px; } .flower-card img { height: 150px; } }
-
 .b4 nav ul { list-style: none; display: block; margin: 0; padding: 0; }
 .b4 nav li { margin-bottom: 15px; }
 .b4 nav a {
@@ -170,58 +167,75 @@ h1, h2, h3, h4, h5, h6 {
 .b7 h2 { font-size: 32px; font-weight: 500; float: left; }
 .b7 h3 { font-size: 24px; font-weight: 500; float: right; text-align: right; }
 
-/* --- ДОДАНІ СТИЛІ ДЛЯ КП6 (Admin & Toasts) --- */
+/* --- СТИЛІ ДЛЯ КП №7 (Анімація) --- */
 
-/* Адмін-форма */
-.admin-form-container { max-width: 100%; margin: 0 auto; text-align: left; }
-.form-group { margin-bottom: 15px; }
-.form-group label { display: block; font-family: 'Playfair Display', serif; font-weight: 700; margin-bottom: 5px; color: #422B23; }
-.form-group input, .form-group textarea {
-    width: 100%; padding: 12px; border: 1px solid #DBA1A2; border-radius: 8px;
-    font-family: 'Montserrat', sans-serif; font-size: 16px; background-color: #fff;
+#play-btn {
+    background: #28a745; color: white; border: none; padding: 10px 20px;
+    border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;
+    margin-top: 10px; display: inline-block;
 }
-.form-group input:focus, .form-group textarea:focus {
-    outline: none; border-color: #C48182; box-shadow: 0 0 5px rgba(219, 161, 162, 0.3);
-}
+#play-btn:hover { background: #218838; }
 
-.btn-primary {
-    background: linear-gradient(90deg, #DBA1A2, #C48182); color: white; border: none;
-    padding: 12px 24px; border-radius: 8px; cursor: pointer; font-family: 'Montserrat', sans-serif;
-    font-weight: 600; transition: transform 0.2s; display: inline-block; margin-top: 10px;
-}
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-.btn-save { background: linear-gradient(90deg, #422B23, #6d4c41); width: 100%; text-align: center; font-size: 18px; }
-
-.preview-list { margin-top: 20px; background: white; padding: 15px; border-radius: 10px; border: 1px dashed #DBA1A2; }
-
-/* Toasts (Спливаючі вікна) */
-#toast-container {
-    position: fixed; bottom: 30px; right: 30px;
-    display: flex; flex-direction: column; gap: 15px;
-    z-index: 9999; width: 320px;
+#work-area {
+    display: none;
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+    background: #F7F3ED; border-radius: 14px;
+    z-index: 100; padding: 10px;
+    box-sizing: border-box;
 }
 
-.rosea-toast {
-    background: #fff; border-left: 6px solid #DBA1A2;
-    border-radius: 8px; box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    padding: 0; overflow: hidden; animation: slideIn 0.5s ease forwards;
-    opacity: 0; transform: translateX(50px); display: flex; flex-direction: column;
+.controls-panel {
+    height: 40px; display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px;
+}
+.control-btn {
+    padding: 5px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;
+}
+.btn-start { background: #007bff; color: white; }
+.btn-stop { background: #dc3545; color: white; }
+.btn-reload { background: #ffc107; color: black; }
+.btn-close { background: #6c757d; color: white; margin-left: auto; }
+
+.log-message {
+    font-size: 12px; color: #333; margin-left: 10px; font-family: monospace;
 }
 
-@keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
-
-.toast-header {
-    background-color: #F7F3ED; padding: 10px 15px;
-    display: flex; justify-content: space-between; align-items: center;
-    border-bottom: 1px solid #eee;
+#anim-area {
+    width: calc(100% - 20px);
+    height: calc(100% - 60px);
+    border: 5px solid green;
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
 }
-.toast-header strong { font-family: 'Playfair Display', serif; color: #422B23; font-size: 16px; }
-.toast-header span { font-size: 12px; color: #888; }
 
-.toast-body { padding: 15px; font-size: 14px; color: #333; line-height: 1.4; }
-
-.toast-close {
-    background: none; border: none; font-size: 20px; cursor: pointer;
-    color: #DBA1A2; line-height: 1;
+.anim-bg {
+    width: 100%; height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    position: absolute; top: 0; left: 0; z-index: 0;
 }
-.toast-close:hover { color: #422B23; }
+
+.quadrant { width: 100%; height: 100%; }
+.q1 { background-image: repeating-linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee), repeating-linear-gradient(45deg, #eee 25%, #fff 25%, #fff 75%, #eee 75%, #eee); background-size: 32px 32px; background-color: #fff; }
+.q2 { background: repeating-linear-gradient(0deg, #f0f8ff, #f0f8ff 16px, #e6e6fa 16px, #e6e6fa 32px); }
+.q3 { background-image: radial-gradient(#ccc 20%, transparent 20%), radial-gradient(#ccc 20%, transparent 20%); background-color: #fff; background-position: 0 0, 16px 16px; background-size: 32px 32px; }
+.q4 { background: repeating-linear-gradient(-45deg, #fff, #fff 10px, #ffe4e1 10px, #ffe4e1 20px); }
+
+#anim-obj {
+    width: 20px; height: 20px;
+    background-color: green;
+    border-radius: 50%;
+    position: absolute;
+    z-index: 10;
+}
+
+#results-table {
+    width: 100%; border-collapse: collapse; margin-top: 20px; display: none;
+}
+#results-table th, #results-table td {
+    border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 12px;
+}
+#results-table th { background-color: #DBA1A2; color: white; }

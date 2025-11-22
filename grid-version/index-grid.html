@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Rosea — Головна</title>
+  <title>Rosea — Лаб 7 (Grid)</title>
   <link rel="stylesheet" href="styles-grid.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
 </head>
@@ -12,95 +12,288 @@
     <div class="board">
 
       <header class="b1 banner" role="banner">
-        <h2>Rosea</h2>
+        <h2>Rosea (Grid)</h2>
       </header>
 
       <aside class="b2 home-left" role="complementary">
         <div class="left-text">
-          Подаруй букет <br>
-          для <span class="highlight">special</span> людини <br>
-          і зроби її день <br>
-          особливим
+          Лабораторна №7<br>
+          <span class="highlight">Варіант 8</span><br>
+          Grid Версія
         </div>
       </aside>
 
       <main class="b5" role="main">
-        <div class="love-block"> <h1>ТИ + ROSEA = ЛЮБОВ</h1>
+        <div class="love-block"> 
+           <h1>ТИ + ROSEA</h1>
+           <button id="play-btn" onclick="openWorkArea()">▶ PLAY ANIMATION</button>
         </div>
-        <div class="gallery-block">
-          <div class="gallery-images">
+
+        <div class="gallery-block" id="main-content">
+          <p>Натисніть PLAY для запуску анімації в Grid-верстці.</p>
+          <div id="results-container">
+              <table id="results-table">
+                  <thead>
+                      <tr>
+                          <th colspan="2">Спосіб 1 (Миттєво / Server)</th>
+                          <th colspan="2">Спосіб 2 (LocalStorage / Batch)</th>
+                      </tr>
+                      <tr>
+                          <th>Подія</th>
+                          <th>Час (Srv)</th>
+                          <th>Подія</th>
+                          <th>Час (Local -> Srv)</th>
+                      </tr>
+                  </thead>
+                  <tbody id="results-body"></tbody>
+              </table>
+          </div>
+        </div>
+
+        <div id="work-area">
+            <div class="controls-panel">
+                <span id="log-msg" class="log-message">Очікування...</span>
+                <div>
+                    <button id="btn-start" class="control-btn btn-start" onclick="startAnimation()">START</button>
+                    <button id="btn-stop" class="control-btn btn-stop" onclick="stopAnimation()" style="display:none;">STOP</button>
+                    <button id="btn-reload" class="control-btn btn-reload" onclick="reloadAnimation()" style="display:none;">RELOAD</button>
+                    <button class="control-btn btn-close" onclick="closeWorkArea()">CLOSE</button>
+                </div>
             </div>
-          
-          <map name="flowermap">
-            <area shape="rect" coords="0,0,100,100" alt="Троянди" href="page2.html" title="Перейти до каталогу троянд">
-            <area shape="circle" coords="150,150,50" alt="Спеціальна пропозиція" href="page4.html" title="Спеціальні пропозиції">
-          </map>
-          
-          <p>
-            У Rosea ми віримо, що квіти — це більше, ніж подарунок.  
-            Це спосіб сказати «люблю», «дякую» чи «я пам'ятаю».  
-            Наші букети створені дарувати тепло, ніжність і незабутні моменти.
-          </p>
+            
+            <div id="anim-area">
+                <div class="anim-bg">
+                    <div class="quadrant q1"></div>
+                    <div class="quadrant q2"></div>
+                    <div class="quadrant q3"></div>
+                    <div class="quadrant q4"></div>
+                </div>
+                <div id="anim-obj"></div>
+            </div>
         </div>
+      </main>
 
-        <div class="task-container" id="task3-container">
-            <h3>Завдання 3: Максимальна цифра (Cookies)</h3>
-            <form id="max-digit-form">
-                <label for="number-input">Введіть число:</label>
-                <input type="number" id="number-input" required>
-                <button type="submit">Знайти</button>
-            </form>
-            <button id="clear-cookie-btn" style="display:none;">OK (Очистити Cookies)</button>
-        </div>
-
-        <div class="task-container" id="task5-container">
-            <h3>Завдання 5: Динамічні списки (LocalStorage)</h3>
-            <label for="block-selector">Оберіть блок для додавання списку:</label>
-            <select id="block-selector">
-                <option value="">-- Оберіть блок --</option>
-                <option value="b1">Блок 1 (Header)</option>
-                <option value="b2">Блок 2 (Ліва колонка)</option>
-                <option value="love-block">Блок 3 (TИ+ROSEA)</option>
-                <option value="b4">Блок 4 (Навігація)</option>
-                <option value="b5">Блок 5 (Main)</option>
-                <option value="b6">Блок 6 (Порада)</option>
-                <option value="b7">Блок 7 (Footer)</option>
-            </select>
-
-            <form id="add-item-form" style="display:none;">
-                <label for="list-item-input">Новий пункт списку:</label>
-                <input type="text" id="list-item-input" required>
-                <button type="submit">Додати</button>
-            </form>
-        </div>
-
-        </main>
-
-      <div class="b4" role="complementary">
-        <nav role="navigation" aria-label="Головне меню">
+      <aside class="b4" role="complementary">
+        <nav role="navigation">
           <ul>
-                        <li><a class="active" href="index-flex.html">Головна</a></li>
-                        <li><a href="page2-flex.html">Каталог</a></li>
-                        <li><a href="page3-flex.html">Про нас</a></li>
-                        <li><a href="page4-flex.html">Галерея</a></li>
-                        <li><a href="page5-flex.html">Контакти</a></li>
-                        <li><a href="admin.html">Адмінка</a></li>
-                        <li><a href="client.html">Клієнт (View)</a></li>
-                    </ul>
+            <li><a class="active" href="index-grid.html">Головна</a></li>
+            <li><a href="page2-grid.html">Каталог</a></li>
+            <li><a href="page3-grid.html">Про нас</a></li>
+            <li><a href="page4-grid.html">Галерея</a></li>
+            <li><a href="page5-grid.html">Контакти</a></li>
+          </ul>
         </nav>
-      </div>
+      </aside>
 
-      <div class="b6" role="note"> Порада дня: додайте кілька квітів у свій дім, настрій зміниться 🌿
+      <div class="b6" role="note">
+        Варіант 8: Зелена рамка, 4 квадранти, логи подій.
       </div>
 
       <footer class="b7" role="contentinfo">
         <h2>Rosea</h2>
-        <h3>Квіти, що говорять замість слів ✨</h3>
+        <h3>Grid Версія</h3>
       </footer>
 
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const obj = document.getElementById('anim-obj');
+    const animArea = document.getElementById('anim-area');
+    const msgBox = document.getElementById('log-msg');
+    
+    let timer = null;
+    let x, y;
+    let stepSize = 1;
+    let currentDir = 0; 
+    let movesInDir = 0;
+    let stepsLimit = 1;
+    let turnCounter = 0;
+    
+    let visitedQuadrants = new Set();
+    let eventCount = 0;
+    let batchEvents = []; 
+
+    function initObj() {
+        x = animArea.clientWidth / 2 - 10;
+        y = animArea.clientHeight / 2 - 10;
+        obj.style.left = x + 'px';
+        obj.style.top = y + 'px';
+        
+        stepSize = 1;
+        currentDir = 0; 
+        movesInDir = 0;
+        stepsLimit = 5;
+        turnCounter = 0;
+        visitedQuadrants.clear();
+        batchEvents = [];
+        eventCount = 0;
+        
+        fetch('server.php', { method: 'DELETE' });
+        localStorage.setItem('localEvents', JSON.stringify([]));
+        
+        logEvent("Готовність до старту");
+    }
+
+    function openWorkArea() {
+        document.getElementById('work-area').style.display = 'block';
+        document.getElementById('main-content').style.visibility = 'hidden';
+        initObj();
+    }
+
+    function closeWorkArea() {
+        stopAnimation();
+        document.getElementById('work-area').style.display = 'none';
+        document.getElementById('main-content').style.visibility = 'visible';
+        showResults();
+    }
+
+    function startAnimation() {
+        document.getElementById('btn-start').style.display = 'none';
+        document.getElementById('btn-stop').style.display = 'inline-block';
+        
+        logEvent("Start pressed. Animation started.");
+
+        timer = setInterval(() => {
+            moveStep();
+        }, 30);
+    }
+
+    function stopAnimation() {
+        if(timer) clearInterval(timer);
+        timer = null;
+        document.getElementById('btn-stop').style.display = 'none';
+        document.getElementById('btn-reload').style.display = 'inline-block';
+        logEvent("Animation stopped.");
+        sendBatchData();
+    }
+
+    function reloadAnimation() {
+        document.getElementById('btn-reload').style.display = 'none';
+        document.getElementById('btn-start').style.display = 'inline-block';
+        initObj();
+    }
+
+    function moveStep() {
+        switch(currentDir) {
+            case 0: x -= stepSize; break;
+            case 1: y -= stepSize; break;
+            case 2: x += stepSize; break;
+            case 3: y += stepSize; break;
+        }
+        
+        movesInDir++;
+        
+        if (movesInDir >= stepsLimit) {
+            currentDir = (currentDir + 1) % 4;
+            movesInDir = 0;
+            turnCounter++;
+            if (turnCounter % 2 === 0) {
+                stepsLimit += 5;
+                stepSize += 0.2;
+            }
+        }
+
+        if(x < 0) x = 0;
+        if(y < 0) y = 0;
+        if(x > animArea.clientWidth - 20) x = animArea.clientWidth - 20;
+        if(y > animArea.clientHeight - 20) y = animArea.clientHeight - 20;
+
+        obj.style.left = x + 'px';
+        obj.style.top = y + 'px';
+
+        checkQuadrants();
+        
+        logEvent(`Step: x=${Math.round(x)}, y=${Math.round(y)}`);
+    }
+
+    function checkQuadrants() {
+        const W = animArea.clientWidth;
+        const H = animArea.clientHeight;
+        let q = "";
+        
+        let cx = x + 10;
+        let cy = y + 10;
+
+        if (cx < W/2 && cy < H/2) q = "Q1 (Top-Left)";
+        else if (cx >= W/2 && cy < H/2) q = "Q2 (Top-Right)";
+        else if (cx < W/2 && cy >= H/2) q = "Q3 (Bottom-Left)";
+        else q = "Q4 (Bottom-Right)";
+
+        if (!visitedQuadrants.has(q)) {
+            visitedQuadrants.add(q);
+            logEvent(`Entered ${q}`);
+            
+            if (visitedQuadrants.size === 4) {
+                stopAnimation();
+                logEvent("All quadrants visited! Auto-Stop.");
+                alert("Анімацію завершено! Всі квадранти пройдено.");
+            }
+        }
+    }
+
+    function logEvent(text) {
+        eventCount++;
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString() + "." + now.getMilliseconds();
+        
+        msgBox.innerText = `Last: ${text} (${timeStr})`;
+
+        const eventObj = {
+            id: eventCount,
+            time: timeStr,
+            details: text
+        };
+
+        fetch('server.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(eventObj)
+        }).catch(err => console.error("Server error:", err));
+
+        batchEvents.push(eventObj);
+        localStorage.setItem('localEvents', JSON.stringify(batchEvents));
+    }
+
+    function sendBatchData() {
+        const data = { batch: batchEvents };
+        fetch('server.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        }).then(res => res.json())
+          .then(d => console.log("Batch saved:", d));
+    }
+
+    function showResults() {
+        const tbody = document.getElementById('results-body');
+        tbody.innerHTML = '<tr><td colspan="4">Завантаження даних...</td></tr>';
+        document.getElementById('results-table').style.display = 'table';
+
+        fetch('server.php')
+            .then(res => res.json())
+            .then(data => {
+                tbody.innerHTML = '';
+                
+                const realtimeData = data.filter(e => e.method === 'realtime');
+                const batchData = data.filter(e => e.method === 'batch');
+                
+                const maxLen = Math.max(realtimeData.length, batchData.length);
+
+                for(let i=0; i<maxLen; i++) {
+                    const r = realtimeData[i] || {details: '-', server_save_time: '-'};
+                    const b = batchData[i] || {details: '-', server_save_time: '-'};
+                    
+                    const row = `<tr>
+                        <td>${r.details}</td>
+                        <td>${r.server_save_time}</td>
+                        <td>${b.details}</td>
+                        <td>${b.time} -> ${b.server_save_time}</td>
+                    </tr>`;
+                    tbody.innerHTML += row;
+                }
+            });
+    }
+  </script>
 </body>
 </html>
